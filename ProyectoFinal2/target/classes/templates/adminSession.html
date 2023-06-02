@@ -1,0 +1,23 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>ADMIN SESSION</title>
+</head>
+<body>
+<h1>Esta es la sesión del administrador</h1>
+<tr>
+    <th>ID</th>
+    <th>Nombre</th>
+    <th>Apellido</th>
+    <th>Email</th>
+</tr>
+
+<tr th:each="user : ${ulist}">
+    <td th:text="${ulist.get(user).getId()}">ID</td>
+    <td th:text="${ulist.get(user).getFirst_name()}">ID</td>
+    <td th:text="${ulist.get(user).getLast_name()}">ID</td>
+    <td th:text="${ulist.get(user).getUsername()}">ID</td>
+</tr>
+</body>
+</html>

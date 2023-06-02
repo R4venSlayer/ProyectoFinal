@@ -1,0 +1,27 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>USER SESSION</title>
+</head>
+<body>
+    <h1>Esta es la sesión del usuario</h1>
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+        </tr>
+
+        <tr th:each="user : ${ue}">
+            <td th:text="${ue.get().id}">ID</td>
+            <td th:text="${ue.get().getFirst_name()}">ID</td>
+            <td th:text="${ue.get().getLast_name()}">ID</td>
+            <td th:text="${ue.get().getUsername()}">ID</td>
+        </tr>
+
+    </table>
+</body>
+</html>
