@@ -1,11 +1,15 @@
 package com.example.ProyectoFinal.service;
 
+import com.example.ProyectoFinal.dto.UsuarioRegistroDTO;
 import com.example.ProyectoFinal.model.UserEntity;
 import org.springframework.security.core.userdetails.UserDetailsService;
+import org.springframework.stereotype.Service;
 
 import java.util.List;
 
-
-public interface UserService {
+@Service
+public interface UserService extends UserDetailsService{
+    public UserEntity save(UsuarioRegistroDTO registroDTO);
     public List<UserEntity> listAllUsers();
+
 }

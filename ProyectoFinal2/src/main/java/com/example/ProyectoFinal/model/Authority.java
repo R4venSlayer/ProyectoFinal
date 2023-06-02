@@ -12,15 +12,14 @@ import lombok.Setter;
 @Entity(name="authorities")
 public class Authority {
 
-    public Authority(AuthorityName authorityName){
-        this.name = authorityName;
-    }
-
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
+
+    @Getter @Setter
     private AuthorityName name;
 
+    public Authority(AuthorityName authorityName){this.name = authorityName;}
 
 }

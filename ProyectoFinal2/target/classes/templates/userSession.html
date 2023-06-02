@@ -16,10 +16,10 @@
         </tr>
 
         <tr th:each="user : ${ue}">
-            <td th:text="${ue.get().id}">ID</td>
-            <td th:text="${ue.get().getFirst_name()}">ID</td>
-            <td th:text="${ue.get().getLast_name()}">ID</td>
-            <td th:text="${ue.get().getUsername()}">ID</td>
+            <td th:text="${ue.getId()}">ID</td>
+            <td th:text="${ue.getFirst_name()}">ID</td>
+            <td th:text="${ue.getLast_name()}">ID</td>
+            <td th:text="${ue.getUsername()}">ID</td>
         </tr>
 
     </table>
