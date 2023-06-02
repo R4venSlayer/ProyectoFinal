@@ -1,0 +1,32 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <meta charset="UTF-8">
+    <title>INICIO DE SESIÓN</title>
+    <!-- Latest compiled and minified CSS -->
+    <title>USER SESSION</title>
+</head>
+<body>
+    <h1>Esta es la sesión del usuario</h1>
+    <table>
+
+        <tr>
+            <th>ID</th>
+            <th>Nombre</th>
+            <th>Apellido</th>
+            <th>Email</th>
+            <th>Fecha nacimiento</th>
+        </tr>
+
+        <tr th:each="user : ${ue}">
+            <td th:text="${ue.getId()}">ID</td>
+            <td th:text="${ue.getFirst_name()}">Firstname</td>
+            <td th:text="${ue.getLast_name()}">Lastname</td>
+            <td th:text="${ue.getUsername()}">Email</td>
+            <td th:text="${ue.getB_date()}">Fecha nacimiento</td>
+        </tr>
+
+    </table>
+
+</body>
+</html>
