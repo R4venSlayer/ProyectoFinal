@@ -1,0 +1,63 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>Publicaciones</title>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+</head>
+<body>
+<h1>Publicaciones</h1>
+<div id="imageGallery"></div>
+</body>
+<script>
+    function loadImages() {
+        fetch("/image")
+            .then(response => response.json())
+            .then(images => {
+                var galleryDiv = document.getElementById("imageGallery");
+                galleryDiv.innerHTML = "";
+
+                images.forEach(image => {
+
+
+
+                    var itemWrapper = document.createElement("div");
+                    itemWrapper.classList.add("galleryItem");
+
+                    var Usuario = document.createElement("div");
+                    Usuario.classList.add("Usuario");
+                    Usuario.textContent = image.usuario;
+                    itemWrapper.appendChild(Usuario);
+
+                    var Estado = document.createElement("div");
+                    Estado.classList.add("Estado");
+                    Estado.textContent = image.usuario;
+                    itemWrapper.appendChild(Estado);
+
+
+                    var fileExtension = image.name.split('.').pop().toLowerCase();
+                    if (fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "gif") {
+                        var imgElement = document.createElement("img");
+                        imgElement.src = "/image/" + image.name;
+                        itemWrapper.appendChild(imgElement);
+                    } else {
+                        console.error("Solo se permiten imagenes");
+                    }
+
+                    var fileName = document.createElement("div");
+                    fileName.classList.add("fileName");
+                    fileName.textContent = image.name;
+                    console.log(fileName);
+                    itemWrapper.appendChild(fileName);
+
+                    galleryDiv.appendChild(itemWrapper);
+                });
+            })
+            .catch(error => {
+                console.error(error);
+            });
+    }
+
+    loadImages();
+</script>
+
+</html>

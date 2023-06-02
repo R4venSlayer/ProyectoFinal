@@ -1,0 +1,173 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Subida de archivos</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f2f2f2;
+      margin: 0;
+      padding: 20px;
+    }
+
+    h1 {
+      color: #333333;
+    }
+
+    form {
+      margin-bottom: 20px;
+    }
+
+    .button {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      background-color: #4CAF50;
+      color: #ffffff;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .button:hover {
+      background-color: #45a049;
+    }
+
+    input[type="file"] {
+      display: none;
+    }
+
+    .fileLabel {
+      display: inline-block;
+      padding: 10px 20px;
+      font-size: 16px;
+      font-weight: bold;
+      text-align: center;
+      text-decoration: none;
+      background-color: #008CBA;
+      color: #ffffff;
+      border-radius: 4px;
+      border: none;
+      cursor: pointer;
+    }
+
+    .fileLabel:hover {
+      background-color: #006080;
+    }
+
+    #imageGallery {
+      display: flex;
+      flex-wrap: wrap;
+    }
+
+    .galleryItem {
+      width: 200px;
+      height: 200px;
+      margin: 10px;
+      overflow: hidden;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-direction: column;
+      cursor: pointer;
+    }
+
+    .galleryItem img {
+      width: 100%;
+      height: 100%;
+      object-fit: cover;
+    }
+
+    .galleryItem .fileName {
+      margin-top: 10px;
+      font-size: 14px;
+      text-align: center;
+    }
+  </style>
+</head>
+<body>
+<h1>Subir imagen</h1>
+<form id="uploadForm" enctype="multipart/form-data">
+  <input id="estado">
+  <label for="imageInput" class="fileLabel">Seleccionar archivo</label>
+  <input type="file" name="image" id="imageInput">
+  <button type="submit" id="submitButton" class="button">Subir</button>
+</form>
+<h1>Galeria de imagenes y archivos</h1>
+<div id="imageGallery"></div>
+
+<script>
+  document.getElementById("uploadForm").addEventListener("submit", function(event) {
+    event.preventDefault();
+
+    var estado= document.getElementById("estado").value;
+    var fileInput = document.getElementById("imageInput");
+    var file = fileInput.files[0];
+
+    var formData = new FormData();
+    formData.append("image", file);
+    formData.append("estado", estado);
+
+    fetch("/storage", {
+      method: "POST",
+      body: formData
+    })
+            .then(response => response.text())
+            .then(data => {
+              console.log(data);
+              loadImages();
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  });
+
+  function loadImages() {
+    fetch("/image")
+            .then(response => response.json())
+            .then(images => {
+              var galleryDiv = document.getElementById("imageGallery");
+              galleryDiv.innerHTML = "";
+
+              images.forEach(image => {
+                var itemWrapper = document.createElement("div");
+                itemWrapper.classList.add("galleryItem");
+
+                var fileExtension = image.name.split('.').pop().toLowerCase();
+                if (fileExtension === "jpg" || fileExtension === "jpeg" || fileExtension === "png" || fileExtension === "gif") {
+                  var imgElement = document.createElement("img");
+                  imgElement.src = "/image/" + image.name;
+                  itemWrapper.appendChild(imgElement);
+                } else {
+                  var fileLink = document.createElement("a");
+                  fileLink.href = "/image/" + image.name;
+                  if (fileExtension === "pdf") {
+                    fileLink.setAttribute("download", ""); // Agregar el atributo "download" para forzar la descarga
+                  }
+                  var fileIcon = document.createElement("img");
+                  fileIcon.src = "file_icon.png"; // Reemplazar con la ruta a tu propia imagen de ícono de archivo
+                  fileIcon.alt = "File Icon";
+                  fileLink.appendChild(fileIcon);
+                  itemWrapper.appendChild(fileLink);
+                }
+
+                var fileName = document.createElement("div");
+                fileName.classList.add("fileName");
+                fileName.textContent = image.name;
+                itemWrapper.appendChild(fileName);
+
+                galleryDiv.appendChild(itemWrapper);
+              });
+            })
+            .catch(error => {
+              console.error(error);
+            });
+  }
+
+  loadImages();
+</script>
+</body>
+</html>

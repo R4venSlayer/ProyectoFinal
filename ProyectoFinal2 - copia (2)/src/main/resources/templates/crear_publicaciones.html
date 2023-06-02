@@ -1,0 +1,18 @@
+<!DOCTYPE html>
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+  <title>Crear Publicación</title>
+</head>
+<body>
+<h1>Crear Publicación</h1>
+<form th:action="@{/publicaciones/crear}" method="post">
+  <div>
+    <label for="texto">Texto:</label>
+    <input type="text" id="texto" name="texto" th:field="*{texto}">
+  </div>
+  <div>
+    <button type="submit">Crear</button>
+  </div>
+</form>
+</body>
+</html>
